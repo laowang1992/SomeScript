@@ -10,6 +10,7 @@ p <- add_argument(p, "--samples_file", help="tab-delimited text file indicating 
 p <- add_argument(p, "--min_reps", help="At least min count of replicates must have cpm values > min cpm value.", type="numeric", default = 2)
 p <- add_argument(p, "--min_cpm", help="At least min count of replicates must have cpm values > min cpm value.", type="numeric", default = 1)
 p <- add_argument(p, "--contrasts", help="file (tab-delimited) containing the pairs of sample comparisons to perform.", type="character")
+p <- add_argument(p, "--shrinkage", help = "whether use shrunken LFC or not (we use \"ashr\" method here).", type = "logical", default = TRUE)
 
 # Parse the command line arguments
 argv <- parse_args(p)
@@ -19,7 +20,7 @@ samples_file <- argv$samples_file
 min_reps <- argv$min_reps
 min_cpm <- argv$min_cpm
 contrasts <- argv$contrasts
-
+shrinkage <- argv$shrinkage
 # test
 if (FALSE) {
   matrix <- "../03.Merge_result/genes.counts.matrix"
@@ -27,6 +28,7 @@ if (FALSE) {
   min_reps <- 2
   min_cpm <- 1
   contrasts <- "./contrasts.txt"
+  shrinkage <- TRUE
 }
 
 library(DESeq2)
@@ -54,11 +56,14 @@ for (i in 1:nrow(contrasts)) {
     design = ~ conditions)
   dds <- DESeq(ddsFullCountTable)
   contrast <- c("conditions", treatment, control)
-  res <- results(dds, contrast)
-  resAsh <- lfcShrink(dds = dds, contrast = contrast, res = res, type = "ashr")
+  if (shrinkage) {
+    res <- lfcShrink(dds = dds, contrast = contrast, type = "ashr")
+  } else {
+    res <- results(dds, contrast)
+  }
   baseMeanA <- rowMeans(counts(dds, normalized = TRUE)[, colData(dds)$conditions == treatment])
   baseMeanB <- rowMeans(counts(dds, normalized = TRUE)[, colData(dds)$conditions == control])
-  res <- cbind(baseMeanA, baseMeanB, as.data.frame(res)[ ,1:2], shrunkenLog2FC = resAsh$log2FoldChange, as.data.frame(res)[ ,3:6])
+  res <- cbind(baseMeanA, baseMeanB, as.data.frame(res))
   res <- cbind(sampleA = treatment, sampleB = control, as.data.frame(res))
   res$padj[is.na(res$padj)] <- 1
   res <- as.data.frame(res[order(res$pvalue), ])
