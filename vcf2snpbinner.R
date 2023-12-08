@@ -93,5 +93,5 @@ stat <- stat %>% mutate(a_percent = scales::percent(a_percent, accuracy = 0.01),
                         missing_rate = scales::percent(missing_rate, accuracy = 0.01))
 
 reform_gt <- reform_gt %>% rename(marker = ID)
-write_tsv(x = reform_gt, file = paste(out_prefix, "reform.txt", sep = "."))
+write_tsv(x = reform_gt, file = paste(out_prefix, "recode.txt", sep = "."))
 write_tsv(x = stat, file = paste(out_prefix, "stat.txt", sep = "."))
