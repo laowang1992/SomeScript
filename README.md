@@ -6,7 +6,7 @@ A R script for transforming vcf file to [SNPBinner](https://github.com/solgenomi
 ```bash
 Rscript ./vcf2snpbinner.R -h
 ```
-```
+```txt
 usage: reform.R [--] [--help] [--opts OPTS] [--input INPUT] [--out OUT]
        [--parent1 PARENT1] [--parent2 PARENT2] [--minDP_p1 MINDP_P1]
        [--minDP_p2 MINDP_P2]
@@ -53,7 +53,7 @@ fahash -b genome.hash -w 12 -f 3 genome.famap
 ```bash
 perl ePCR.pl -h
 ```
-```
+```txt
 
 ############################################################
 #
@@ -91,14 +91,14 @@ A R script for differential expression analysis using DESeq2. You need to prepar
 - `read count matrix file`.
 - `samples file`, tab-delimited text file indicating biological replicate relationships.
 e.g.
-```
+```txt
 cond_A  cond_A_rep1
 cond_A  cond_A_rep2
 cond_B  cond_B_rep1
 cond_B  cond_B_rep2
 ``` 
 - `contrasts file`, tab-delimited text file containing the pairs of sample comparisons to perform. e.g.
-```
+```txt
 cond_A  cond_B
 cond_Y  cond_Z
 ```
@@ -106,7 +106,7 @@ Usage:
 ```bash
 Rscript run_DESeq2.R -h
 ```
-```
+```txt
 usage: run_DESeq2.R [--] [--help] [--opts OPTS] [--matrix MATRIX]
        [--samples_file SAMPLES_FILE] [--min_reps MIN_REPS] [--min_cpm
        MIN_CPM] [--contrasts CONTRASTS]
@@ -127,4 +127,27 @@ optional arguments:
                       values > min cpm value. [default: 1]
   -c, --contrasts     file (tab-delimited) containing the pairs of
                       sample comparisons to perform.
+```
+
+# extractSeq.sh
+If there is a gene/transcript id you are interested and the corresponding genomics data, 
+then you want to abtain genomic, CDS, pep sequence and gene structure information of this 
+gene/transcript, you can use this shll script.
+Usage:
+```shell
+#chmod u+x extractSeq.sh
+./extractSeq.sh --help
+```
+```txt
+Usage: /home/wangpf/bin/extractSeq.sh [--genome genome_file] [--gff3 gff3_file] [--cds cds_file] [--pep pep_file] [--id gene/mRNA_id] [--up up] [--down down] [--gz]
+Options:
+  --genome  Specify the genome fasta file
+  --gff3    Specify the gff3 file
+  --cds     Specify the cds fasta file
+  --pep     Specify the pep fasta file
+  --id      Specify the gene/mRNA id
+  --up      Specify how many bp upstream for gene/mRNA
+  --down    Specify how many bp downstream for gene/mRNA
+  --gz      Compress all the result if this option is present
+  --help    Display this help message
 ```
