@@ -82,8 +82,16 @@ for (i in samples) {
   reform_gt <- reform_gt %>% left_join(df, by = "ID")
 }
 
-pdf(file = paste(out_prefix, "miss_het.stat.pdf", sep = "."), width = 5, height = 4)
+pdf(file = paste(out_prefix, "heterozygosityRate.pdf", sep = "."), width = 5, height = 4)
 hist(stat$heterozygosity_rate, breaks = 50, xlab = 'Individual heterozygosity rate', border = 'orange', main = NULL, col = 'orange')
+dev.off()
+pdf(file = paste(out_prefix, "missingRate.pdf", sep = "."), width = 5, height = 4)
+hist(stat$missing_rate, breaks = 50, xlab = 'Individual missing rate', border = 'orange', main = NULL, col = 'orange')
+dev.off()
+png(filename = paste(out_prefix, "heterozygosityRate.png", sep = "."), width = 5, height = 4, units = "in", res = 500)
+hist(stat$heterozygosity_rate, breaks = 50, xlab = 'Individual heterozygosity rate', border = 'orange', main = NULL, col = 'orange')
+dev.off()
+png(filename = paste(out_prefix, "missingRate.png", sep = "."), width = 5, height = 4, units = "in", res = 500)
 hist(stat$missing_rate, breaks = 50, xlab = 'Individual missing rate', border = 'orange', main = NULL, col = 'orange')
 dev.off()
 

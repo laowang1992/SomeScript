@@ -87,7 +87,7 @@ addUp(df = df, len = len, group = "chromosome", pos = c("start", "end"), band = 
 ```
 
 # run_DESeq2.R
-A R script for differential expression analysis using DESeq2. You need to prepare three files:
+A R script for differential expression analysis using DESeq2 (with biological replication). You need to prepare three files:
 - `read count matrix file`.
 - `samples file`, tab-delimited text file indicating biological replicate relationships.
 e.g.
@@ -150,4 +150,46 @@ Options:
   --down    Specify how many bp downstream for gene/mRNA
   --gz      Compress all the result if this option is present
   --help    Display this help message
+```
+
+# run_edgeR.R
+A R script for differential expression analysis using edgeR (without biological replication). You need to prepare three files:
+- `read count matrix file`.
+- `samples file`, tab-delimited text file indicating biological replicate relationships.
+e.g.
+```txt
+cond_A  sample_A
+cond_B  sample_B
+``` 
+- `contrasts file`, tab-delimited text file containing the pairs of sample comparisons to perform. e.g.
+```txt
+cond_A  cond_B
+cond_Y  cond_Z
+```
+Usage:
+```bash
+Rscript run_edgeR.R -h
+```
+```txt
+usage: run_edgeR.R [--] [--help] [--opts OPTS] [--matrix MATRIX]
+       [--samples_file SAMPLES_FILE] [--min_reps MIN_REPS] [--min_cpm
+       MIN_CPM] [--contrasts CONTRASTS] [--dispersion DISPERSION]
+
+Run differential expression analysis using DESeq2.
+
+flags:
+  -h, --help          show this help message and exit
+
+optional arguments:
+  -x, --opts          RDS file containing argument values
+  -m, --matrix        matrix of raw read counts (not normalized!)
+  -s, --samples_file  tab-delimited text file indicating biological
+                      replicate relationships.
+  --min_reps          At least min count of replicates must have cpm
+                      values > min cpm value. [default: 1]
+  --min_cpm           At least min count of replicates must have cpm
+                      values > min cpm value. [default: 1]
+  -c, --contrasts     file (tab-delimited) containing the pairs of
+                      sample comparisons to perform.
+  -d, --dispersion    edgeR dispersion value. [default: 0.1]
 ```
