@@ -56,6 +56,7 @@ for (i in 1:nrow(contrasts)) {
   result_table <- data.frame(sampleA = treatment, sampleB = control, result_table)
   result_table$logFC <- -1 * result_table$logFC
   
-  write.table(result_table, file=paste0("genes.counts.matrix.", treatment, "_vs_", control, ".edgeR.DE_results.txt"), sep = "\t", quote = F, row.names = T)
-  write.table(result_table, file=paste0("genes.counts.matrix.", treatment, "_vs_", control, ".edgeR.count_matrix.txt"), sep = "\t", quote = F, row.names = T)
+  write.table(x = res, file = paste(paste(treatment, "vs", control, sep = "_"), "edgeR.DE_results.txt", sep = "."), sep = '\t', quote = FALSE)
+  write.table(x = rnaseqMatrix, file = paste(paste(treatment, "vs", control, sep = "_"), "edgeR.read_count.txt", sep = "."), sep = '\t', quote = FALSE)
+  
 }
