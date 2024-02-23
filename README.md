@@ -193,3 +193,38 @@ optional arguments:
                       sample comparisons to perform.
   -d, --dispersion    edgeR dispersion value. [default: 0.1]
 ```
+
+# get_longest_seq.pl
+In some genomics data, there are multiple isoforms fo one gene because of alternative splicing. This perl script can get the longest CDS or pep sequence of genes.
+
+**Requiement**
+- perl module
+  - Bio::SeqIO
+- data file
+  - CDS or pep sequence file
+  - gff file
+
+**Usage:**
+```bash
+perl get_longest_seq.pl -h
+```
+```txt
+
+############################################################
+#
+# Usage:  /public/home/wangpf/bin/get_longest_seq.pl --fasta <cds_or_pep.fa> --gff <genes.gff> --out <outprefix>
+#
+# Required:
+#
+#       --fasta <string>                        CDS or pep fasta file.
+#
+#       --gff   <string>                        gff file.
+#
+#       --out   <string>                        output prefix.
+#
+############################################################
+
+```
+**Output**
+- \<outprefix\>.longest.fa, the longest CDS or pep sequence in fasta format with gene id as sequence identifier
+- \<outprefix\>.longest.list, a list contain gene id, longest mRNA id and the length of longest mRNA
