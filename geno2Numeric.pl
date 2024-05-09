@@ -1,4 +1,9 @@
 #!/bin/env perl
+#####################################################################
+# zcat pop.recode.vcf.gz | grep -v "##" | cut -f1,2,10- > geno.txt  #
+# perl geno2Numeric.pl geno.txt GD.tmp GM.txt                       #
+# csvtk transpose -t -T GD.tmp -o GD.txt                            #
+#####################################################################
 use strict;
 use warnings;
 
