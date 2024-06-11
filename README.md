@@ -228,3 +228,36 @@ perl get_longest_seq.pl -h
 **Output**
 - \<outprefix\>.longest.fa, the longest CDS or pep sequence in fasta format with gene id as sequence identifier
 - \<outprefix\>.longest.list, a list contain gene id, longest mRNA id and the length of longest mRNA
+
+# find_gaps.py
+There are gaps in majority genome fasta files except T2T genome. This `find_gaps.py` script will find gaps position.
+
+**Requiement**
+- python3 module
+  - argparse
+  - Biopython
+- input data
+  - genome fasta file
+
+**Usage:**
+```bash
+chmod u+x find_gaps.py
+find_gaps.py -h
+```
+```text
+usage: find_gaps.py [-h] -i INPUT -o OUTPUT
+
+Find gaps (N regions) in a genome FASTA file.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -i INPUT, --input INPUT
+                        Input genome FASTA file
+  -o OUTPUT, --output OUTPUT
+                        Output file for gap positions
+```
+**Output**
+A tab-separated text file containing three columes.
+```text
+<chromosome_id> <gap_start> <gap_end>
+```
