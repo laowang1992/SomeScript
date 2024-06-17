@@ -245,9 +245,9 @@ chmod u+x find_gaps.py
 find_gaps.py -h
 ```
 ```text
-usage: find_gaps.py [-h] -i INPUT -o OUTPUT
+usage: find_gaps.py [-h] -i INPUT -o OUTPUT [-s] [-c CONTIG]
 
-Find gaps (N regions) in a genome FASTA file.
+Find gaps (N regions) in a genome FASTA file and optionally split at gaps.
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -255,9 +255,15 @@ optional arguments:
                         Input genome FASTA file
   -o OUTPUT, --output OUTPUT
                         Output file for gap positions
+  -s, --split           Split the FASTA file at gaps
+  -c CONTIG, --contig CONTIG
+                        Output file for split contigs (default: split.fa)
+
 ```
 **Output**
 A tab-separated text file containing three columes.
 ```text
 <chromosome_id> <gap_start> <gap_end>
 ```
+
+A fasta file with split contigs.
