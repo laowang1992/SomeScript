@@ -286,6 +286,9 @@ In fact, this script is modeled after `mummerCoordsDotPlotly.R` in [dotPlotly](h
    - tidyverse
  - input data
    - Alignment result from mummer's show-coords program;
+     ```shell
+     show-coords example.filter.delta > example.coords
+     ```
    - Tab-separated text files containing reference and query IDs separately, first column is IDs in genome, the second is what you want to show in figure, only chromosomes or contigs in these files will be shown (optional). If not assigned, all IDs of chromomsomes or contigs longer than `--min-query-length` will be shown in figure;
      ```text
      GWHERGL00000001	A01
