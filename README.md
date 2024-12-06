@@ -3,6 +3,7 @@ There are some useful scripts.
 
 # vcf2snpbinner.R
 A R script for transforming vcf file to [SNPBinner](https://github.com/solgenomics/snpbinner) input file. The heterozygosity and missing rate will be calculated for output SNP marker.
+## Usage
 ```bash
 Rscript ./vcf2snpbinner.R -h
 ```
@@ -30,7 +31,7 @@ optional arguments:
   --minDP_p2      Minimum depth of parent_2 [default: 5]
 ```
 
-# GeneStructure_with_Variation
+# Haplotype.R (GeneStructure with Variation)
 A R script for drawing gene structure and the variation of this gene in a population. A gtf file containing target gene, a vcf file containing variation of this gene and phenotype data is needed. Hierarchical clustering algorithm was adopted to distinguish different haplotype, the number of haplotype can be designated according clusting result. Some polymorphism may exsit within samples belonging to the same haplotype, you can divided them into different haplotypes by setting more haplotypes.
 
 ![A figure containing gene structure and variation information](./GeneStructure_with_Variation/output/GeneStructWithVari.png "A figure containing gene structure and variation information")
@@ -38,10 +39,10 @@ A R script for drawing gene structure and the variation of this gene in a popula
 # ePCR.pl
 A perl script for ePCR. Input is tsv (tab-separated values) file containing three columns (PrimerID, forwardPrimer, Reverse Primer).
 
-**Requiement**
+## Requiement
 - [ePCR](http://ftp.debian.org/debian/pool/main/e/epcr/epcr_2.3.12-1.orig.tar.gz)
 
-**Preparation**
+## Preparation
 ```bash
 # lower letter to UPPER letter
 seqkit seq -u reference.fa > genome.fa
@@ -49,7 +50,7 @@ seqkit seq -u reference.fa > genome.fa
 famap -t N -b genome.famap genome.fa
 fahash -b genome.hash -w 12 -f 3 genome.famap
 ```
-
+## Usage
 ```bash
 perl ePCR.pl -h
 ```
@@ -88,21 +89,22 @@ addUp(df = df, len = len, group = "chromosome", pos = c("start", "end"), band = 
 
 # run_DESeq2.R
 A R script for differential expression analysis using DESeq2 (with biological replication). You need to prepare three files:
-- `read count matrix file`.
-- `samples file`, tab-delimited text file indicating biological replicate relationships.
+## Requiement
+ - `read count matrix file`.
+ - `samples file`, tab-delimited text file indicating biological replicate relationships.
 e.g.
-```txt
-cond_A  cond_A_rep1
-cond_A  cond_A_rep2
-cond_B  cond_B_rep1
-cond_B  cond_B_rep2
-``` 
-- `contrasts file`, tab-delimited text file containing the pairs of sample comparisons to perform. e.g.
-```txt
-cond_A  cond_B
-cond_Y  cond_Z
-```
-Usage:
+   ```txt
+   cond_A  cond_A_rep1
+   cond_A  cond_A_rep2
+   cond_B  cond_B_rep1
+   cond_B  cond_B_rep2
+   ``` 
+ - `contrasts file`, tab-delimited text file containing the pairs of sample comparisons to perform. e.g.
+   ```txt
+   cond_A  cond_B
+   cond_Y  cond_Z
+   ```
+## Usage
 ```bash
 Rscript run_DESeq2.R -h
 ```
@@ -133,7 +135,7 @@ optional arguments:
 If there is a gene/transcript id you are interested and the corresponding genomics data, 
 then you want to abtain genomic, CDS, pep sequence and gene structure information of this 
 gene/transcript, you can use this shll script.
-Usage:
+## Usage
 ```shell
 #chmod u+x extractSeq.sh
 ./extractSeq.sh --help
@@ -154,19 +156,20 @@ Options:
 
 # run_edgeR.R
 A R script for differential expression analysis using edgeR (without biological replication). You need to prepare three files:
-- `read count matrix file`.
-- `samples file`, tab-delimited text file indicating biological replicate relationships.
+## Requiement
+ - `read count matrix file`.
+ - `samples file`, tab-delimited text file indicating biological replicate relationships.
 e.g.
-```txt
-cond_A  sample_A
-cond_B  sample_B
-``` 
-- `contrasts file`, tab-delimited text file containing the pairs of sample comparisons to perform. e.g.
-```txt
-cond_A  cond_B
-cond_Y  cond_Z
-```
-Usage:
+   ```txt
+   cond_A  sample_A
+   cond_B  sample_B
+   ``` 
+ - `contrasts file`, tab-delimited text file containing the pairs of sample comparisons to perform. e.g.
+   ```txt
+   cond_A  cond_B
+   cond_Y  cond_Z
+   ```
+## Usage
 ```bash
 Rscript run_edgeR.R -h
 ```
@@ -197,14 +200,14 @@ optional arguments:
 # get_longest_seq.pl
 In some genomics data, there are multiple isoforms fo one gene because of alternative splicing. This perl script can get the longest CDS or pep sequence of genes.
 
-**Requiement**
+## Requiement
 - perl module
   - Bio::SeqIO
 - data file
   - CDS or pep sequence file
   - gff file
 
-**Usage:**
+## Usage
 ```bash
 perl get_longest_seq.pl -h
 ```
@@ -225,21 +228,21 @@ perl get_longest_seq.pl -h
 ############################################################
 
 ```
-**Output**
+## Output
 - \<outprefix\>.longest.fa, the longest CDS or pep sequence in fasta format with gene id as sequence identifier
 - \<outprefix\>.longest.list, a list contain gene id, longest mRNA id and the length of longest mRNA
 
 # find_gaps.py
 There are gaps in majority genome fasta files except T2T genome. This `find_gaps.py` script will find gaps position.
 
-**Requiement**
+## Requiement
 - python3 module
   - argparse
   - Biopython
 - input data
   - genome fasta file
 
-**Usage:**
+## Usage
 ```bash
 chmod u+x find_gaps.py
 find_gaps.py -h
@@ -260,10 +263,106 @@ optional arguments:
                         Output file for split contigs (default: split.fa)
 
 ```
-**Output**
-A tab-separated text file containing three columes.
+## Output
+A tab-separated text file containing three columns.
 ```text
 <chromosome_id> <gap_start> <gap_end>
 ```
 
 A fasta file with split contigs.
+
+# mummerCoordsPlot.R
+This script can draw a alignment plot according to mummer's show-coords program. 
+In fact, this script is modeled after `mummerCoordsDotPlotly.R` in [dotPlotly](https://github.com/tpoorten/dotPlotly.git). `mummerCoordsDotPlotly.R` is a excellent program, but there are a few aspects that I am not entirely satisfied with:
+ - It will sort query ID by length, but I want keep query ID order in the query genome;
+ - <span style="color: yellow;">Yellow</span> is not very noticeable on a white background, so I use <span style="color: red;">red</span> and <span style="color: blue;">blue</span>;
+ - Add the ability to color the alignment results based on whether they are forward or reverse complementary;
+ - IDs was not on the middle of chromosomes or contigs in figure;
+ - I typically work with the `tidyverse` ecosystem, so I have rewritten this script using `tidyverse` syntax for clarity and consistency;
+ - Some other modifications.
+## Requiement
+ - R package
+   - argparser
+   - tidyverse
+ - input data
+   - Alignment result from mummer's show-coords program;
+   - Tab-separated text files containing reference and query IDs separately, first column is IDs in genome, the second is what you want to show in figure, only chromosomes or contigs in these files will be shown (optional). If not assigned, all IDs of chromomsomes or contigs longer than `--min-query-length` will be shown in figure;
+     ```text
+     GWHERGL00000001	A01
+     GWHERGL00000002	A02
+     GWHERGL00000003	A03
+     GWHERGL00000004	A04
+     GWHERGL00000005	A05
+     ...  ...
+     ```
+   - Tab-separated text files containing chromosome or contig length, first column is IDs in genome, the second is the corresponding length (optional);
+     ```text
+     GWHERGL00000001	59205763
+     GWHERGL00000002	39005548
+     GWHERGL00000003	44769757
+     GWHERGL00000004	28346059
+     GWHERGL00000005	46671336
+     ...  ...
+     ```
+## Usage
+```bash
+Rscript mummerCoordsPlot.R -h
+```
+
+```text
+usage: mummerCoordsPlot.R [--] [--help] [--opts OPTS] [--input INPUT]
+       [--out OUT] [--ref REF] [--query QUERY] [--refIDs REFIDS]
+       [--queryIDs QUERYIDS] [--refLen REFLEN] [--queryLen QUERYLEN]
+       [--min-query-length MIN-QUERY-LENGTH] [--min-alignment-length
+       MIN-ALIGNMENT-LENGTH] [--min-identity MIN-IDENTITY] [--color-by
+       COLOR-BY] [--width WIDTH] [--height HEIGHT]
+
+Generates plots of alignment data produced by show-coords.
+
+flags:
+  -h, --help                  show this help message and exit
+
+optional arguments:
+  -x, --opts                  RDS file containing argument values
+  -i, --input                 coords file from mummer program
+                              'show-coords'
+  -o, --out                   outfile prefix
+  -r, --ref                   reference name shown in plot [default:
+                              Reference]
+  -q, --query                 query name shown in plot [default: Query]
+  -R, --refIDs                a tab-separated file containing two
+                              columns, first column is IDs in reference
+                              genome, second column is names to shown
+                              in plot
+  -Q, --queryIDs              a tab-separated file containing two
+                              columns, first column is IDs in query
+                              genome, second column is names to shown
+                              in plot
+  -l, --refLen                a tab-separated file containing two
+                              columns, first column is IDs in reference
+                              genome, second column is chr length
+  -L, --queryLen              a tab-separated file containing two
+                              columns, first column is IDs in query
+                              genome, second column is chr length
+  -M, --min-query-length      filter queries with total alignments less
+                              than cutoff X bp [default: 4e+05]
+  -m, --min-alignment-length  filter alignments less than cutoff X bp
+                              [default: 10000]
+  -s, --min-identity          filter alignments with identity less than
+                              X % [default: 90]
+  -c, --color-by              turn on color alignments by 'direction'
+                              or 'identity', no color if not assign
+  -W, --width                 plot width (inches) [default: 10]
+  -H, --height                plot height (inches) [default: 10]
+
+  ```
+## Output
+ - Color the alignment results based on direction.
+   ![direction](./example_data/mummerCoordsPlot/output/example.direction.png)
+ - Color the alignment results based on identity.
+   ![identity](./example_data/mummerCoordsPlot/output/example.identity.png)
+ - default.
+   ![default](./example_data/mummerCoordsPlot/output/example.default.png)
+## Data Source
+These two genome is from this paper:
+>Zhou, Yifan et al. “The complexity of structural variations in Brassica rapa revealed by assembly of two complete T2T genomes.” Science bulletin vol. 69,15 (2024): 2346-2351. doi:10.1016/j.scib.2024.03.030
