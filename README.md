@@ -289,7 +289,7 @@ In fact, this script is modeled after `mummerCoordsDotPlotly.R` in [dotPlotly](h
      ```shell
      show-coords example.filter.delta > example.coords
      ```
-   - Tab-separated text files containing reference and query IDs separately, first column is IDs in genome, the second is what you want to show in figure, only chromosomes or contigs in these files will be shown (optional). If not assigned, all IDs of chromomsomes or contigs longer than `--min-query-length` will be shown in figure;
+   - Tab-separated text files containing reference and query IDs separately, first column is IDs in genome, the second is what you want to show in figure, only chromosomes or contigs in these files will be shown (optional). If not assigned, all IDs of chromomsomes or contigs longer than `--min-query-length` will be shown in figure, or you can just assign in the command line, e.g. "GWHERGL00000001:A01,GWHERGL00000002:A02,GWHERGL00000003:A03"
      ```text
      GWHERGL00000001	A01
      GWHERGL00000002	A02
@@ -318,7 +318,7 @@ usage: mummerCoordsPlot.R [--] [--help] [--opts OPTS] [--input INPUT]
        [--queryIDs QUERYIDS] [--refLen REFLEN] [--queryLen QUERYLEN]
        [--min-query-length MIN-QUERY-LENGTH] [--min-alignment-length
        MIN-ALIGNMENT-LENGTH] [--min-identity MIN-IDENTITY] [--color-by
-       COLOR-BY] [--width WIDTH] [--height HEIGHT]
+       COLOR-BY] [--size SIZE] [--width WIDTH] [--height HEIGHT]
 
 Generates plots of alignment data produced by show-coords.
 
@@ -336,11 +336,17 @@ optional arguments:
   -R, --refIDs                a tab-separated file containing two
                               columns, first column is IDs in reference
                               genome, second column is names to shown
-                              in plot
+                              in plot, or a string like
+                              'scaffoldA01:A01,scaffoldA03:A03'. If
+                              there is no file named that, we will
+                              threat it as a string
   -Q, --queryIDs              a tab-separated file containing two
                               columns, first column is IDs in query
                               genome, second column is names to shown
-                              in plot
+                              in plot, or a string like
+                              'scaffoldA01:A01,scaffoldA03:A03'. If
+                              there is no file named that, we will
+                              threat it as a string
   -l, --refLen                a tab-separated file containing two
                               columns, first column is IDs in reference
                               genome, second column is chr length
@@ -350,11 +356,12 @@ optional arguments:
   -M, --min-query-length      filter queries with total alignments less
                               than cutoff X bp [default: 4e+05]
   -m, --min-alignment-length  filter alignments less than cutoff X bp
-                              [default: 10000]
+                              [default: 2000]
   -s, --min-identity          filter alignments with identity less than
                               X % [default: 90]
   -c, --color-by              turn on color alignments by 'direction'
                               or 'identity', no color if not assign
+  -S, --size                  line width of alignments in figure
   -W, --width                 plot width (inches) [default: 10]
   -H, --height                plot height (inches) [default: 10]
 
