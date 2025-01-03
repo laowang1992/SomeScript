@@ -8,9 +8,9 @@ A R script for transforming vcf file to [SNPBinner](https://github.com/solgenomi
 Rscript ./vcf2snpbinner.R -h
 ```
 ```txt
-usage: reform.R [--] [--help] [--opts OPTS] [--input INPUT] [--out OUT]
-       [--parent1 PARENT1] [--parent2 PARENT2] [--minDP_p1 MINDP_P1]
-       [--minDP_p2 MINDP_P2]
+usage: vcf2snpbinner.R [--] [--help] [--opts OPTS] [--input INPUT]
+       [--out OUT] [--parent1 PARENT1] [--parent2 PARENT2] [--minDP_p1
+       MINDP_P1] [--minDP_p2 MINDP_P2] [--max_missing MAX_MISSING]
 
 a program for converting vcf to table of snpbinner. genotype same as
 parent_1 is designated 'a', genotype same as parent_2 is designated
@@ -18,17 +18,19 @@ parent_1 is designated 'a', genotype same as parent_2 is designated
 designated '-'
 
 flags:
-  -h, --help      show this help message and exit
+  -h, --help         show this help message and exit
 
 optional arguments:
-  -x, --opts      RDS file containing argument values
-  -i, --input     vcf or vcf.gz file containing two parents and progeny
-                  lines
-  -o, --out       output file prefix
-  -p, --parent1   name of parent_1
-  --parent2       name of parent_2
-  -m, --minDP_p1  Minimum depth of parent_1 [default: 5]
-  --minDP_p2      Minimum depth of parent_2 [default: 5]
+  -x, --opts         RDS file containing argument values
+  -i, --input        vcf or vcf.gz file containing two parents and
+                     progeny lines
+  -o, --out          output file prefix
+  -p, --parent1      name of parent_1
+  -P, --parent2      name of parent_2
+  -d, --minDP_p1     Minimum depth of parent_1 [default: 5]
+  -D, --minDP_p2     Minimum depth of parent_2 [default: 5]
+  -m, --max_missing  Maximum missing rate of SNP [default: 0.3]
+
 ```
 
 # Haplotype.R (GeneStructure with Variation)

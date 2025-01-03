@@ -222,7 +222,7 @@ alignments <- alignments %>%
 
 # plot
 auto_label <- function(x) {
-  if (max(x) < 1e6) {
+  if (max(x, na.rm = TRUE) < 1e6) {
     # 使用 kb 单位
     scales::label_number(scale = 1e-3, suffix = "kb")(x)
   } else {
