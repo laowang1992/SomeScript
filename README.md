@@ -378,3 +378,64 @@ optional arguments:
 ## Data Source
 These two genome is from this paper:
 >Zhou, Yifan et al. “The complexity of structural variations in Brassica rapa revealed by assembly of two complete T2T genomes.” Science bulletin vol. 69,15 (2024): 2346-2351. doi:10.1016/j.scib.2024.03.030
+
+# BackgroundAnalysis.R
+It is important to know the length and position of introgression loci in marker-assisted selection, and this R script is used for genetic background recovery rates analysis. 
+## Requiement
+ - [SNPbinner](https://github.com/solgenomics/SNPbinner.git) (Python 2.7)
+ - R package
+   - argparser
+   - tidyverse
+   - cowplot
+   - ggh4x
+   - ggrastr (optional)
+ - Tab-separated text file containing chromosome ID and labels shown in the result. (optional)
+ - Tab-separated text file containing chromosome ID and length. (optional)
+## Usage
+```bash
+Rscript BackgroundAnalysis.R -h
+```
+```text
+usage: BackgroundAnalysis.R [--] [--help] [--opts OPTS] [--input INPUT]
+       [--donor DONOR] [--recurrent RECURRENT] [--sample SAMPLE]
+       [--chromosome CHROMOSOME] [--length LENGTH] [--minDdp MINDDP]
+       [--maxDdp MAXDDP] [--minRdp MINRDP] [--maxRdp MAXRDP]
+       [--path_to_snpbinner PATH_TO_SNPBINNER]
+
+a program for background analysis
+
+flags:
+  -h, --help               show this help message and exit
+
+optional arguments:
+  -x, --opts               RDS file containing argument values
+  -i, --input              input file name, GATK Table format
+  -d, --donor              donor parent name
+  -r, --recurrent          recurrent parent name
+  -s, --sample             sample parent name
+  -c, --chromosome         tab-separated file contain chromosome ID and
+                           label shown in figure. if not assigned, all
+                           chromosome in genome will be shown
+  -l, --length             tab-separated file contain chromosome ID and
+                           length. if not assigned, the max position of
+                           SNP for each chromosome in GATK Table file
+                           will be regarded as chromosome length
+  -m, --minDdp             Minimum depth for donor parent [default:
+                           -Inf]
+  --maxDdp                 Maxmum depth for donor parent [default: Inf]
+  --minRdp                 Minimum depth for recurrent parent [default:
+                           -Inf]
+  --maxRdp                 Maxmum depth for recurrent parent [default:
+                           Inf]
+  -p, --path_to_snpbinner  path to snpbinner [default:
+                           ~/tools/SNPbinner-1.0.0-GondaEtAl2019/snpbinner]
+```
+## Output
+ - a figure which show the length and position of introgression loci.
+   ![introgression loci](./example_data/BackgroundAnalysis/output/offspring.bg.png)
+ - genetic background recovery rate, \<SAMPLE\>.bg_stat.csv.
+   | genotype     | length(bp) | rate        |
+   |--------------|------------|-------------|
+   | Donor        | 23013590   | 0.023952016 |
+   | Heterozygous | 3605578    | 0.003752603 |
+   | Recurrent    | 934201436  | 0.972295382 |
