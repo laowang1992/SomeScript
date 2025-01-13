@@ -36,7 +36,7 @@ optional arguments:
 # Haplotype.R (GeneStructure with Variation)
 A R script for drawing gene structure and the variation of this gene in a population. A gtf file containing target gene, a vcf file containing variation of this gene and phenotype data is needed. Hierarchical clustering algorithm was adopted to distinguish different haplotype, the number of haplotype can be designated according clusting result. Some polymorphism may exsit within samples belonging to the same haplotype, you can divided them into different haplotypes by setting more haplotypes.
 
-![A figure containing gene structure and variation information](./GeneStructure_with_Variation/output/GeneStructWithVari.png "A figure containing gene structure and variation information")
+![A figure containing gene structure and variation information](./example_data/Haplotype/output/GeneStructWithVari.png "A figure containing gene structure and variation information")
 
 # ePCR.pl
 A perl script for ePCR. Input is tsv (tab-separated values) file containing three columns (PrimerID, forwardPrimer, Reverse Primer).
