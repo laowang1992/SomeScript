@@ -276,7 +276,7 @@ A fasta file with split contigs.
 # mummerCoordsPlot.R
 This script can draw a alignment plot according to mummer's show-coords program. 
 In fact, this script is modeled after `mummerCoordsDotPlotly.R` in [dotPlotly](https://github.com/tpoorten/dotPlotly.git). `mummerCoordsDotPlotly.R` is a excellent program, but there are a few aspects that I am not entirely satisfied with:
- - It will sort query ID by length, but I want keep query ID order in the query genome;
+ - It will sort query ID by length, but I want to keep query ID order in the query genome;
  - <span style="color: yellow;">Yellow</span> is not very noticeable on a white background, so I use <span style="color: red;">red</span> and <span style="color: blue;">blue</span>;
  - Add the ability to color the alignment results based on whether they are forward or reverse complementary;
  - IDs was not on the middle of chromosomes or contigs in figure;
