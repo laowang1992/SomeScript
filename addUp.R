@@ -11,7 +11,7 @@ if (FALSE) {
 
 addUp <- function(df, len = NULL, lenName = "Len", group, pos, band = 0.01){
   df_tmp <- df
-  df <- df %>% ungroup() %>% dplyr::select(group = all_of(group), all_of(pos))
+  df <- df %>% ungroup() %>% dplyr::select(group = all_of(group), all_of(pos)) %>% distinct()
   # 取最大值
   if (is.null(len)) {
     len <- df %>% mutate(max = apply(df[,-1], 1, max)) %>% group_by(group) %>% summarise(Len = max(max))
