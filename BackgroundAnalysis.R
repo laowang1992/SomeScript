@@ -87,7 +87,12 @@ dd1 <- df %>% select(CHROM, POS, REF, ALT,
                      sample.GT = all_of(paste(sample, "GT", sep = ".")), 
                      sample.DP = all_of(paste(sample, "DP", sep = ".")), 
                      sample.GQ = all_of(paste(sample, "GQ", sep = "."))) %>% 
-  na.omit()
+  # gatk4结果中有的GT是”1|1“这种形式
+  mutate(donor.GT     = str_replace(donor.GT,     "\\|", "/"), 
+         recurrent.GT = str_replace(recurrent.GT, "\\|", "/"), 
+         sample.GT    = str_replace(sample.GT,    "\\|", "/")) %>% 
+  # 有的结果中GT是”./.“，DP和GQ仍然有数值而不是NA，针对这种情况做过滤
+  filter(donor.GT != "./." & recurrent.GT != "./." & sample.GT != "./.")
 
 # 统计DP分布
 dp <- dd1 %>% dplyr::select(donor = donor.DP, recurrent = recurrent.DP, Sample = sample.DP) %>%
