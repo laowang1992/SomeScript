@@ -430,6 +430,7 @@ optional arguments:
   -p, --path_to_snpbinner  path to snpbinner [default:
                            ~/tools/SNPbinner-1.0.0-GondaEtAl2019/snpbinner]
 ```
+
 ## Output
  - a figure which show the length and position of introgression loci.
    ![introgression loci](./example_data/BackgroundAnalysis/output/offspring.bg.png)
@@ -439,3 +440,25 @@ optional arguments:
    | Donor        | 23013590   | 0.023952016 |
    | Heterozygous | 3605578    | 0.003752603 |
    | Recurrent    | 934201436  | 0.972295382 |
+
+# count_gff_length.py
+Calculate the total length of a specific feature type in a GFF file, e.g. exon, gene, rRNA.
+
+## Usage
+```sh
+python count_gff_length.py -h
+```
+```text
+usage: count_gff_length.py [-h] -g GFF -c CATEGORY
+
+Calculate total length and count of a specific feature in a GFF file.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -g GFF, --gff GFF     Input GFF file
+  -c CATEGORY, --category CATEGORY
+                        Feature type to calculate length and count (e.g.,
+                        gene, mRNA, miRNA)
+```
+## Input
+A gff file.
