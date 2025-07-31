@@ -26,7 +26,7 @@ p <- add_argument(parser = p, arg = "--maxRdp", help = "Maxmum depth for recurre
 p <- add_argument(p, "--width", help = "Plot width", type = "numeric", default = 8)
 p <- add_argument(p, "--height", help = "Plot height", type = "numeric", default = 7)
 
-p <- add_argument(parser = p, arg = "--path_to_snpbinner", short = "-p", help = "path to snpbinner", type = "character", default = "~/tools/SNPbinner-1.0.0-GondaEtAl2019/snpbinner")
+p <- add_argument(parser = p, arg = "--path_to_snpbinner", short = "-p", help = "path to snpbinner", type = "character", default = "~/tools/snpbinner_python3/snpbinner")
 p <- add_argument(parser = p, arg = "--path_to_csvtk", short = "-P", help = "path to csvtk, default uses system PATH", type = "character", default = "csvtk")
 
 # Parse the command line arguments
