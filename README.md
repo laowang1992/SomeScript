@@ -382,7 +382,7 @@ These two genome is from this paper:
 # BackgroundAnalysis.R
 It is important to know the length and position of introgression loci in marker-assisted selection, and this R script is used for genetic background recovery rates analysis. 
 ## Requiement
- - [SNPbinner](https://github.com/solgenomics/SNPbinner.git) (Python 2.7)
+ - [SNPbinner](https://github.com/laowang1992/SNPbinner) (Python 3)
  - R package
    - argparser
    - tidyverse
