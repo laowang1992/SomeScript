@@ -379,6 +379,15 @@ optional arguments:
 These two genome is from this paper:
 >Zhou, Yifan et al. “The complexity of structural variations in Brassica rapa revealed by assembly of two complete T2T genomes.” Science bulletin vol. 69,15 (2024): 2346-2351. doi:10.1016/j.scib.2024.03.030
 
+# AlignmentDotPlot.R
+**`AlignmentDotPlot.R`** is an improved and extended version of *`mummerCoordsPlot.R`*.  
+It retains all original functionalities for visualizing **MUMmer** alignment results,  
+and adds new support for **minimap2** outputs in **PAF** format.
+
+This script enables users to generate high-quality alignment dot plots from both  
+**MUMmer** and **minimap2**, providing a unified and convenient workflow for  
+comparing genome assemblies or large-scale sequence alignments.
+
 # BackgroundAnalysis.R
 It is important to know the length and position of introgression loci in marker-assisted selection, and this R script is used for genetic background recovery rates analysis. 
 ## Requiement
