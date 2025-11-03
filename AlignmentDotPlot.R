@@ -29,7 +29,7 @@ p <- add_argument(parser = p, arg = "--min-query-length", short = "-M", help = "
 p <- add_argument(parser = p, arg = "--min-alignment-length", short = "-m", help = "filter alignments less than cutoff X bp", type = "integer", 
                   default = 2000)
 p <- add_argument(parser = p, arg = "--min-identity", short = "-s", help = "filter alignments with identity less than X %", type = "numeric", default = 0)
-p <- add_argument(parser = p, arg = "--min-mapQ", help = "minimum mapQ, is effective only for minimap2", type = "integer", default = 0)
+p <- add_argument(parser = p, arg = "--min-mapQ", short = "-p", help = "minimum mapQ, is effective only for minimap2", type = "integer", default = 0)
 p <- add_argument(parser = p, arg = "--color-by", short = "-c", help = "turn on color alignments by 'direction' or 'identity', no color if not assign", 
                   type = "character", default = NULL)
 p <- add_argument(parser = p, arg = "--size", short = "-S", help = "line width of alignments in figure", type = "numeric", default = NULL)
