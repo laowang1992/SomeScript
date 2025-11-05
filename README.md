@@ -274,6 +274,8 @@ A tab-separated text file containing three columns.
 A fasta file with split contigs.
 
 # mummerCoordsPlot.R
+> `mummerCoordsPlot.R` has been integrated into `AlignmentDotPlot.R`.
+
 This script can draw a alignment plot according to mummer's show-coords program. 
 In fact, this script is modeled after `mummerCoordsDotPlotly.R` in [dotPlotly](https://github.com/tpoorten/dotPlotly.git). `mummerCoordsDotPlotly.R` is a excellent program, but there are a few aspects that I am not entirely satisfied with:
  - It will sort query ID by length, but I want to keep query ID order in the query genome;
@@ -282,14 +284,30 @@ In fact, this script is modeled after `mummerCoordsDotPlotly.R` in [dotPlotly](h
  - IDs was not on the middle of chromosomes or contigs in figure;
  - I typically work with the `tidyverse` ecosystem, so I have rewritten this script using `tidyverse` syntax for clarity and consistency;
  - Some other modifications.
+
+# AlignmentDotPlot.R
+**`AlignmentDotPlot.R`** is an improved and extended version of *`mummerCoordsPlot.R`*.  
+It retains all original functionalities for visualizing **MUMmer** alignment results,  
+and adds new support for **minimap2** outputs in **PAF** format.
+
+This script enables users to generate high-quality alignment dot plots from both  
+**MUMmer** and **minimap2**, providing a unified and convenient workflow for  
+comparing genome assemblies or large-scale sequence alignments.
+
 ## Requiement
  - R package
    - argparser
    - tidyverse
  - input data
-   - Alignment result from mummer's show-coords program;
+   - Alignment result from mummer's show-coords program:
      ```shell
+     nucmer --mum --prefix=example -g 1000 -c 90 -l 40 -t 10 GWHERGL00000000.genome.fasta GWHERGM00000000.genome.fasta > nucmer.log
+     delta-filter -r -q example.delta > example.filter
      show-coords example.filter.delta > example.coords
+     ```
+   - or, Alignment result from minimap2:
+     ```shell
+     minimap2 -x asm5 -o example.paf -t 20 GWHERGL00000000.genome.fasta GWHERGM00000000.genome.fasta
      ```
    - Tab-separated text files containing reference and query IDs separately, first column is IDs in genome, the second is what you want to show in figure, only chromosomes or contigs in these files will be shown (optional). If not assigned, all IDs of chromomsomes or contigs longer than `--min-query-length` will be shown in figure, or you can just assign in the command line, e.g. "GWHERGL00000001:A01,GWHERGL00000002:A02,GWHERGL00000003:A03"
      ```text
@@ -311,16 +329,16 @@ In fact, this script is modeled after `mummerCoordsDotPlotly.R` in [dotPlotly](h
      ```
 ## Usage
 ```bash
-Rscript mummerCoordsPlot.R -h
+Rscript AlignmentDotPlot.R -h
 ```
-
 ```text
-usage: mummerCoordsPlot.R [--] [--help] [--opts OPTS] [--input INPUT]
-       [--out OUT] [--ref REF] [--query QUERY] [--refIDs REFIDS]
-       [--queryIDs QUERYIDS] [--refLen REFLEN] [--queryLen QUERYLEN]
-       [--min-query-length MIN-QUERY-LENGTH] [--min-alignment-length
-       MIN-ALIGNMENT-LENGTH] [--min-identity MIN-IDENTITY] [--color-by
-       COLOR-BY] [--size SIZE] [--width WIDTH] [--height HEIGHT]
+usage: AlignmentDotPlot.R [--] [--help] [--opts OPTS] [--tool TOOL]
+       [--input INPUT] [--out OUT] [--ref REF] [--query QUERY]
+       [--refIDs REFIDS] [--queryIDs QUERYIDS] [--refLen REFLEN]
+       [--queryLen QUERYLEN] [--min-query-length MIN-QUERY-LENGTH]
+       [--min-alignment-length MIN-ALIGNMENT-LENGTH] [--min-identity
+       MIN-IDENTITY] [--min-mapQ MIN-MAPQ] [--color-by COLOR-BY]
+       [--size SIZE] [--width WIDTH] [--height HEIGHT]
 
 Generates plots of alignment data produced by show-coords.
 
@@ -329,8 +347,9 @@ flags:
 
 optional arguments:
   -x, --opts                  RDS file containing argument values
+  -t, --tool                  alignment tool, 'mummer' or 'minimap2'
   -i, --input                 coords file from mummer program
-                              'show-coords'
+                              'show-coords' or paf file from minimap2
   -o, --out                   outfile prefix
   -r, --ref                   reference name shown in plot [default:
                               Reference]
@@ -360,7 +379,9 @@ optional arguments:
   -m, --min-alignment-length  filter alignments less than cutoff X bp
                               [default: 2000]
   -s, --min-identity          filter alignments with identity less than
-                              X % [default: 90]
+                              X % [default: 0]
+  -p, --min-mapQ              minimum mapQ, is effective only for
+                              minimap2 [default: 0]
   -c, --color-by              turn on color alignments by 'direction'
                               or 'identity', no color if not assign
   -S, --size                  line width of alignments in figure
@@ -369,24 +390,57 @@ optional arguments:
 
   ```
 ## Output
- - Color the alignment results based on direction.
-   ![direction](./example_data/mummerCoordsPlot/output/example.direction.png)
- - Color the alignment results based on identity.
-   ![identity](./example_data/mummerCoordsPlot/output/example.identity.png)
- - default.
-   ![default](./example_data/mummerCoordsPlot/output/example.default.png)
+```shell
+# mummer
+## default
+Rscript AlignmentDotPlot.R -t mummer \
+	-i example.coords -o example.default
+## direction
+Rscript AlignmentDotPlot.R -t mummer \
+	-i example.coords -o example.direction \
+	-r AiJiaoBai -q HongShanCaiTai \
+	-R refIDs.txt -Q queryIDs.txt \
+	-l refLen.txt -L queryLen.txt \
+	-m 5000 -s 90 \
+	-c direction \
+	-W 7 -H 6
+## identity
+Rscript AlignmentDotPlot.R -t mummer \
+	-i example.coords -o example.identity \
+	-r AiJiaoBai -q HongShanCaiTai \
+	-R refIDs.txt -Q queryIDs.txt \
+	-l refLen.txt -L queryLen.txt \
+	-m 5000 -s 90 \
+	-c identity \
+	-W 7 -H 6
+
+# minimap2
+## default
+Rscript AlignmentDotPlot.R -t minimap2 \
+	-i example.paf -o example.default
+## direction
+Rscript AlignmentDotPlot.R -t minimap2 \
+	-i example.paf -o example.direction \
+	-r AiJiaoBai -q HongShanCaiTai \
+	-R refIDs.txt -Q queryIDs.txt \
+	-l refLen.txt -L queryLen.txt \
+	-m 5000 -p 60 \
+	-c direction \
+	-W 7 -H 6
+## identity
+Rscript AlignmentDotPlot.R -t minimap2 \
+	-i example.paf -o example.identity \
+	-r AiJiaoBai -q HongShanCaiTai \
+	-R refIDs.txt -Q queryIDs.txt \
+	-l refLen.txt -L queryLen.txt \
+	-m 5000 -p 60 \
+	-c identity \
+	-W 7 -H 6
+```
+![Output of AlignmentDotPlot.R](./example_data/AlignmentDotPlot/output/AlignmentDotPlot.png "Output of AlignmentDotPlot.R")
 ## Data Source
 These two genome is from this paper:
 >Zhou, Yifan et al. “The complexity of structural variations in Brassica rapa revealed by assembly of two complete T2T genomes.” Science bulletin vol. 69,15 (2024): 2346-2351. doi:10.1016/j.scib.2024.03.030
-
-# AlignmentDotPlot.R
-**`AlignmentDotPlot.R`** is an improved and extended version of *`mummerCoordsPlot.R`*.  
-It retains all original functionalities for visualizing **MUMmer** alignment results,  
-and adds new support for **minimap2** outputs in **PAF** format.
-
-This script enables users to generate high-quality alignment dot plots from both  
-**MUMmer** and **minimap2**, providing a unified and convenient workflow for  
-comparing genome assemblies or large-scale sequence alignments.
 
 # BackgroundAnalysis.R
 It is important to know the length and position of introgression loci in marker-assisted selection, and this R script is used for genetic background recovery rates analysis. 
