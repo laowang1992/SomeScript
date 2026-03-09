@@ -251,9 +251,12 @@ auto_label <- function(x) {
     scales::label_number(scale = 1e-6, suffix = "Mb")(x)
   }
 }
+if (is.na(linewidth)) {
+  linewidth <- NULL
+}
 p <- ggplot(alignments) + 
-  geom_vline(data = refLen, mapping = aes(xintercept = refCumSumLen), linetype = "dashed", color = "dimgrey") + 
-  geom_hline(data = queryLen, mapping = aes(yintercept = queryCumSumLen), linetype = "dashed", color = "dimgrey") + 
+  geom_vline(data = refLen, mapping = aes(xintercept = refCumSumLen), linetype = "dashed", color = "dimgrey", linewidth = linewidth) + 
+  geom_hline(data = queryLen, mapping = aes(yintercept = queryCumSumLen), linetype = "dashed", color = "dimgrey", linewidth = linewidth) + 
   #geom_segment(aes(x = newRefStart, xend = newRefEnd, y = newQueryStart, yend = newQueryEnd, color = weighted_avg_identity), linewidth = 1.5) + 
   scale_x_continuous(expand = c(0, 0), breaks = refLen$refBreaks, labels = refLen$refID, name = ref, 
                      sec.axis = sec_axis(~., labels = auto_label), limits = c(0, NA)) + 
@@ -270,9 +273,6 @@ if (is.na(color_by)) {
   color_by <- "noColor"
 } else if (color_by != "identity" & color_by != "direction") {
   warning("'--color-by' is not 'identity', 'direction' or default!!! There will be no color assigning to alignment")
-}
-if (is.na(linewidth)) {
-  linewidth <- NULL
 }
 p_color <- switch(
   color_by,
