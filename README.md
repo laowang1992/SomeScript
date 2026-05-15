@@ -525,3 +525,36 @@ optional arguments:
 ```
 ## Input
 A gff file.
+
+# find_telomere_from_TRF.py
+This script is used for identifying telomere from [TRF (Tandem Repeats Finder)](https://github.com/Benson-Genomics-Lab/TRF.git). **Please note that the TRF output must first be converted into GFF format using [TRF2GFF](https://github.com/Adamtaranto/TRF2GFF.git).**
+
+## Usage
+```shell
+python find_telomere_from_TRF.py -h
+```
+```
+usage: find_telomere.py [-h] -i INPUT -o OUTPUT [-m MOTIF] [-c COPY] [--match MATCH] [--indel INDEL]
+
+Filter telomere tandem repeats from TRF gff3
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -i INPUT, --input INPUT
+                        Input GFF3
+  -o OUTPUT, --output OUTPUT
+                        Output file
+  -m MOTIF, --motif MOTIF
+                        Telomere motif (default: TTTAGGG)
+  -c COPY, --copy COPY  Minimum CopyNumber (default: 50)
+  --match MATCH         Minimum PercentMatches (default: 0)
+  --indel INDEL         Maximum PercentIndels (default: inf)
+```
+
+## Output
+A gff format file containing telomere.
+```
+trf genome.fa 2 7 7 80 10 50 500 -f -d -m
+trf2gff -i genome.fa.2.7.7.80.10.50.500.dat -o genome.TRF.gff3
+find_telomere_from_TRF.py -i genome.TRF.gff3 -o telomere.gff3 --match 90
+```
