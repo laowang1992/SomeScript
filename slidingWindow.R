@@ -66,10 +66,10 @@ slidingWindow <- function(df, winSize, winStep, groups, position, values, fun){
 
 
 slidingWindow_fast <- function(df, winSize, winStep, groups, position, values, fun) {
-  # 1. 核心修复：安全转换函数对象，完美兼容 "mean" 或 mean
+  # 1. 安全转换函数对象，兼容 "mean" 或 mean
   actual_fun <- match.fun(fun)
   
-  # 2. 智能提取函数文本名称，防止列名变成尴尬的 "_fun"
+  # 2. 提取函数文本名称，防止列名变成的 "_fun"
   fun_char <- deparse(substitute(fun))
   if (is.character(fun)) {
     fun_char <- fun
@@ -85,7 +85,7 @@ slidingWindow_fast <- function(df, winSize, winStep, groups, position, values, f
   df_clean <- df %>% 
     dplyr::select(groups = all_of(groups), position = all_of(position), all_of(values))
   
-  cat(date(), " | 正在高效生成窗口坐标...\n", sep = "")
+  cat(date(), " | generating window coordinates...\n", sep = "")
   
   # 生成 windows
   wid <- df_clean %>%
@@ -107,9 +107,9 @@ slidingWindow_fast <- function(df, winSize, winStep, groups, position, values, f
     }) %>%
     ungroup()
   
-  cat(date(), " | 正在进行并行化滑窗统计 (Non-equi join)...\n", sep = "")
+  cat(date(), " | parallel sliding-window analysis (Non-equi join)...\n", sep = "")
   
-  # 3. 核心修复：这里调用 actual_fun 确保万无一失
+  # 3. 这里调用 actual_fun 确保万无一失
   result <- wid %>%
     left_join(
       df_clean, 
@@ -127,7 +127,7 @@ slidingWindow_fast <- function(df, winSize, winStep, groups, position, values, f
     )
   
   colnames(result)[1] <- groups
-  cat(date(), " | 统计完成！\n", sep = "")
+  cat(date(), " | finish！\n", sep = "")
   
   return(result)
 }
@@ -146,15 +146,4 @@ if (FALSE) {
   
   system.time(x <- slidingWindow(df = df, winSize = winSize, winStep = winStep, groups = groups, position = position, values = values, fun = fun))
   system.time(x_fast <- slidingWindow_fast(df = df, winSize = winSize, winStep = winStep, groups = groups, position = position, values = values, fun = fun))
-}
-
-
-# 一些测试代码，以后可能更新到函数中
-if(FALSE){
-  fuc <- function(wid, values, df){
-    df_tmp <- df %>% filter(groups == wid["groups"], position > wid["Start"], position < wid["End"])
-    apply(df_tmp[, values], 2, sum)
-  }
-  x <- apply(wid, 1, fuc, values = values, df = df)
-  
 }
