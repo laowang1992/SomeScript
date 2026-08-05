@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # 统计gff文件中，某一类型元素的总长度
 import argparse
 
